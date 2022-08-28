@@ -1,0 +1,11 @@
+fun7(esi,*rdi)
+{ 
+    if(*rdi==esi)return 0;
+    if(*rdi<esi)return 2*fun7(esi,*(rdi+10)+1);
+    if(*rdi>esi)return 2*fun7(esi,*(rdi+8));
+}
+0->1->3->6
+第一次小于*rdi（36）
+第二次大于*rdi（8）
+第三次大于（22）
+第四次等于（35）

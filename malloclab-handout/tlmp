@@ -1,0 +1,44 @@
+
+static void insnode(void* bp)
+{
+	size_t sz = GET_SIZE(HDRP(bp));
+	int ind = sz2in(sz);
+	void* tmp = seglist[ind];
+	void* bef = NULL;
+
+	int cnt = 0;
+	while (tmp != NULL)
+	{
+		size_t tmpsz = GET_SIZE(HDRP(tmp));
+		if (sz <= tmpsz)break;
+		bef = tmp;
+		tmp = SUCC(tmp);
+		cnt++;
+	}
+	if (tmp == NULL && bef == NULL)
+	{
+		seglist[ind] = bp;
+		SUCC(bp) = NULL;
+		PRED(bp) = NULL;
+	}
+	else if (tmp == NULL && bef != NULL)
+	{
+		PRED(bp) = bef;
+		SUCC(bp) = NULL;
+		SUCC(bef) = bp;
+	}
+	else if (tmp != NULL && bef == NULL)
+	{
+		PRED(bp) = NULL;
+		SUCC(bp) = tmp;
+		PRED(tmp) = bp;
+		seglist[ind] = bp;
+	}
+	else if (tmp != NULL && bef != NULL)
+	{
+		PRED(bp) = bef;
+		SUCC(bef) = bp;
+		SUCC(bp) = tmp;
+		PRED(tmp) = bp;
+	}
+}
